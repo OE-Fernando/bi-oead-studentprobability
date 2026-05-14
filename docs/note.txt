@@ -12,7 +12,7 @@ Steps:
             cd ..
             python -m src.model.train_and_package
         
-        Or run individual steps:
+        Or run individual steps (cd .. [in root]):
             Step 1 - Search for best hyperparameters:
                 python -m src.model.search_hyperparameters
                 Generates: src/model/best_hyperparameters.json

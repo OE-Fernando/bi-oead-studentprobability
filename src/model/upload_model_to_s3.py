@@ -9,7 +9,7 @@ from botocore.exceptions import ClientError, NoCredentialsError
 # -----------------------------
 
 BUCKET_NAME = "sagemaker-us-east-1-719805443631"
-PREFIX = "fernando_test/model"
+PREFIX = "oead-prob/model"
 
 LOCAL_FILE_NAME = "model.tar.gz"
 
