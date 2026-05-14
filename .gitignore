@@ -1,0 +1,11 @@
+venv/
+venv_test/
+venv_as_docker/
+venv_docker/
+.env.*
+__pycache__/
+*.pyc
+*checkpoint*
+data/
+data/students_prob_show_up_to_lc_data.csv
+src/model/pipeline.joblib
