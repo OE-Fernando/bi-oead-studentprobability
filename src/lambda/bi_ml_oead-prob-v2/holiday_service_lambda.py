@@ -32,14 +32,14 @@ class HolidayService:
 
     def get_holiday_flags(self, date_str: str, country_iso: str) -> Tuple[int, int, int]:
         try:
-            book_date = datetime.datetime.strptime(date_str, '%Y-%m-%d').date()
+            startTime = datetime.datetime.strptime(date_str, '%Y-%m-%d').date()
         except Exception as exc:
-            raise ValueError(f"book_date must be YYYY-MM-DD: {date_str}") from exc
+            raise ValueError(f"startTime must be YYYY-MM-DD: {date_str}") from exc
 
         date_keys = {
-            'isHoliday': self._format_date(book_date),
-            'isHolidayPre': self._format_date(book_date - datetime.timedelta(days=1)),
-            'isHolidayPost': self._format_date(book_date + datetime.timedelta(days=1)),
+            'isHoliday': self._format_date(startTime),
+            'isHolidayPre': self._format_date(startTime - datetime.timedelta(days=1)),
+            'isHolidayPost': self._format_date(startTime + datetime.timedelta(days=1)),
         }
 
         results = {}
@@ -69,7 +69,7 @@ class HolidayService:
 
     def annotate_event(self, event: Dict[str, Any]) -> Dict[str, Any]:
         event['isHoliday'], event['isHolidayPre'], event['isHolidayPost'] = self.get_holiday_flags(
-            event.get('book_date', ''), event.get('country_iso', '')
+            event.get('startTime', ''), event.get('country_iso', '')
         )
 
         event['isWeekend'] = self.normalize_is_weekend(event.get('isWeekend', 0))

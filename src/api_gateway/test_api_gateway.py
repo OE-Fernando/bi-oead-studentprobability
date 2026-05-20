@@ -3,7 +3,7 @@
 API Gateway Test Script
 
 Tests the junior probability prediction API gateway with multiple randomized requests.
-Each request uses realistic randomized data with book_date guaranteed to be in the future (1-7 days ahead).
+Each request uses realistic randomized data with startTime guaranteed to be in the future (1-7 days ahead).
 """
 
 import requests
@@ -17,7 +17,7 @@ import statistics
 # Configuration
 API_ENDPOINT = "https://bi-api.openenglish.com/juniorprob2"
 NUM_TESTS = 10
-DATE_RANGE_DAYS = (1, 7)  # book_date will be 1-7 days from today
+DATE_RANGE_DAYS = (1, 7)  # startTime will be 1-7 days from today
 
 # Realistic predefined values for each field
 COUNTRIES = ["AR", "CL", "CO", "MX", "PE", "VE", "ES"]
@@ -41,7 +41,7 @@ def generate_random_payload() -> Dict:
     # Generate a future date (1-7 days from today)
     days_ahead = random.randint(DATE_RANGE_DAYS[0], DATE_RANGE_DAYS[1])
     future_date = datetime.now() + timedelta(days=days_ahead)
-    book_date = future_date.strftime("%Y-%m-%d")
+    startTime = future_date.strftime("%Y-%m-%d")
 
     payload = {
         "dow": random.randint(DOW_RANGE[0], DOW_RANGE[1]),
@@ -57,7 +57,7 @@ def generate_random_payload() -> Dict:
         "isWeekend": random.randint(0, 1),
         "native_language": random.choice(LANGUAGES),
         "class_type": random.choice(CLASS_TYPES),
-        "book_date": book_date,
+        "startTime": startTime,
     }
     return payload
 

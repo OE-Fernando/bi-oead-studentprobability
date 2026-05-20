@@ -42,7 +42,7 @@ def test_annotate_event():
     s3_client = FakeS3Client(csv)
     service = HolidayService(s3_client, bucket='any', data_train_prefix='prefix/')
 
-    event = {'book_date': '2026-03-05', 'country_iso': 'BR', 'isWeekend': 'true'}
+    event = {'startTime': '2026-03-05', 'country_iso': 'BR', 'isWeekend': 'true'}
     annotated = service.annotate_event(event)
 
     assert annotated['isHoliday'] == 1
@@ -71,7 +71,7 @@ def test_data_service_calling_to_query_uses_holiday_service():
             'hourOfDay': 7,
             'minuteOfHour': 0,
             'isWeekend': 'false',
-            'book_date': '2026-03-05',
+            'startTime': '2026-03-05',
         }
     ])
     from data_contracts_lambda import build_calling_data

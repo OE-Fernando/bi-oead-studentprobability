@@ -31,7 +31,7 @@ Modify the `NUM_TESTS` variable in the script or run with custom parameters (fut
 ## Test Features
 
 - **10 randomized test requests** with realistic data
-- **Future date guarantee** - `book_date` is always 1-7 days in the future
+- **Future date guarantee** - `startTime` is always 1-7 days in the future
 - **Realistic data generation** using predefined lists:
   - Countries: AR, CL, CO, MX, PE, VE, ES
   - Enrollments: s07, s31, sMx
@@ -82,7 +82,7 @@ Date range: 1-7 days in the future
     "isWeekend": 0,
     "native_language": "es",
     "class_type": "group",
-    "book_date": "2026-04-01"
+    "startTime": "2026-04-01"
   }
   ✓ Success! Response: 0.742156
 
@@ -113,7 +113,7 @@ To test a single request manually (equivalent to the curl command):
 curl -X POST "https://bi-api.openenglish.com/juniorprob" \
   -H "accept: application/json" \
   -H "Content-Type: application/json" \
-  -d '{"dow": 3, "ageGroup": 2, "studLevel": 3, "stuH": "2-10", "country_iso": "AR", "enrollment": "s07", "deltaDays": -1, "deltaHours": -16, "hourOfDay": 3, "minuteOfHour": 0, "isWeekend": 0, "native_language": "es", "class_type": "orientation", "book_date": "2026-03-30"}'
+  -d '{"dow": 3, "ageGroup": 2, "studLevel": 3, "stuH": "2-10", "country_iso": "AR", "enrollment": "s07", "deltaDays": -1, "deltaHours": -16, "hourOfDay": 3, "minuteOfHour": 0, "isWeekend": 0, "native_language": "es", "class_type": "orientation", "startTime": "2026-03-30"}'
 ```
 
 END OF FILE

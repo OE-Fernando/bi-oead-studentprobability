@@ -76,8 +76,8 @@ Steps:
             Should get a value like: 0.6628158092498779
 
     Test API Gateway from terminal (https://bi-api.openenglish.com/juniorprob2 goes to the bi_ml_oead-prob-v2 lambda function):
-        C:\Windows\System32\curl.exe -X POST "https://bi-api.openenglish.com/juniorprob" -H "accept: application/json" -H "Content-Type: application/json" -d "{ \"dow\": 3, \"ageGroup\": 2, \"studLevel\": 3, \"stuH\": \"2-10\", \"country_iso\": \"AR\", \"enrollment\": \"s07\", \"deltaDays\": -1, \"deltaHours\": -16, \"hourOfDay\": 3, \"minuteOfHour\": 0, \"isWeekend\": 0, \"native_language\": \"es\", \"class_type\": \"orientation\", \"book_date\": \"2023-11-30\" }"
-        C:\Windows\System32\curl.exe -X POST "https://bi-api.openenglish.com/juniorprob2" -H "accept: application/json" -H "Content-Type: application/json" -d "{ \"dow\": 3, \"ageGroup\": 2, \"studLevel\": 3, \"stuH\": \"2-10\", \"country_iso\": \"AR\", \"enrollment\": \"s07\", \"deltaDays\": -1, \"deltaHours\": -16, \"hourOfDay\": 3, \"minuteOfHour\": 0, \"isWeekend\": 0, \"native_language\": \"es\", \"class_type\": \"orientation\", \"book_date\": \"2023-11-30\" }"
+        C:\Windows\System32\curl.exe -X POST "https://bi-api.openenglish.com/juniorprob" -H "accept: application/json" -H "Content-Type: application/json" -d "{ \"dow\": 3, \"ageGroup\": 2, \"studLevel\": 3, \"stuH\": \"2-10\", \"country_iso\": \"AR\", \"enrollment\": \"s07\", \"deltaDays\": -1, \"deltaHours\": -16, \"hourOfDay\": 3, \"minuteOfHour\": 0, \"isWeekend\": 0, \"native_language\": \"es\", \"class_type\": \"orientation\", \"startTime\": \"2023-11-30\" }"
+        C:\Windows\System32\curl.exe -X POST "https://bi-api.openenglish.com/juniorprob2" -H "accept: application/json" -H "Content-Type: application/json" -d "{ \"dow\": 3, \"ageGroup\": 2, \"studLevel\": 3, \"stuH\": \"2-10\", \"country_iso\": \"AR\", \"enrollment\": \"s07\", \"deltaDays\": -1, \"deltaHours\": -16, \"hourOfDay\": 3, \"minuteOfHour\": 0, \"isWeekend\": 0, \"native_language\": \"es\", \"class_type\": \"orientation\", \"startTime\": \"2023-11-30\" }"
    
     Test automático:
         Set in test_api_gateway.py:

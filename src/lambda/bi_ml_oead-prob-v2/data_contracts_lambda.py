@@ -25,8 +25,8 @@ TRAINING_INTEGER_FEATURES = [
     'hourOfDay',
     'minuteOfHour',
     'isHoliday',
-    'preHoliday',
-    'postHoliday',
+    'isHolidayPre',
+    'isHolidayPost',
 ]
 
 TRAINING_DATE_FEATURES = []

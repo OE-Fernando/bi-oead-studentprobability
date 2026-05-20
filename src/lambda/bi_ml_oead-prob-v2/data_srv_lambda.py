@@ -43,28 +43,45 @@ class DataService:
         return build_training_data(df, target_column='y')
 
     def calling_to_query(self, calling_data: CallingData, holiday_service: HolidayService | None = None) -> QueryData:
-        """Convert CallingData into QueryData with book_date -> holiday flags conversion."""
+        """Convert CallingData into QueryData with startTime -> holiday flags conversion."""
         df = calling_data.X.copy()
 
-        if 'book_date' not in df.columns:
-            raise DataContractError("CallingData.X must include 'book_date' to build QueryData.")
+        if 'startTime' not in df.columns:
+            raise DataContractError("CallingData.X must include 'startTime' to build QueryData.")
+
+        df['courseSubTypeId'] = '4'
+        df['dow'] = ''
+        df['studentLevelNumber'] = ''
+        df['enrollment'] = ''
+        df['studentHistory'] = ''
+        df['country'] = ''
+        df['isb2b'] = ''
+        df['gender'] = ''
+        df['ageGroup'] = ''
+
+        df['deltaDays'] = 0
+        df['deltaHours'] = 0
+        df['hourOfDay'] = 0
+        df['minuteOfHour'] = 0
 
         if holiday_service is not None:
             # Real holiday conversion using holiday lookup service
+
             df['isHoliday'] = 0
             df['isHolidayPre'] = 0
             df['isHolidayPost'] = 0
+          
 
             for idx, row in df.iterrows():
-                flags = holiday_service.get_holiday_flags(str(row['book_date']), str(row['country_iso']))
+                flags = holiday_service.get_holiday_flags(str(row['startTime']), str(row['country_iso']))
                 df.at[idx, 'isHoliday'] = flags[0]
                 df.at[idx, 'isHolidayPre'] = flags[1]
                 df.at[idx, 'isHolidayPost'] = flags[2]
         else:
             # Fallback conversion rule (for tests or legacy behavior)
-            dates = pd.to_datetime(df['book_date'], errors='coerce')
+            dates = pd.to_datetime(df['startTime'], errors='coerce')
             if dates.isna().any():
-                raise DataContractError("CallingData.X.book_date must be parseable as a valid date.")
+                raise DataContractError("CallingData.X.startTime must be parseable as a valid date.")
 
             holiday = ((dates.dt.day % 10) == 0).astype('int64')
             holiday_pre = (((dates + pd.Timedelta(days=1)).dt.day % 10) == 0).astype('int64')
