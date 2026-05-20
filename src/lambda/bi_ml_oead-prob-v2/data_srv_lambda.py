@@ -54,7 +54,7 @@ class DataService:
         df['studentLevelNumber'] = ''
         df['enrollment'] = ''
         df['studentHistory'] = ''
-        df['country'] = ''
+        df['country_iso'] = ''
         df['isb2b'] = ''
         df['gender'] = ''
         df['ageGroup'] = ''

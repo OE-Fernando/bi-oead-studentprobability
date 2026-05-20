@@ -22,7 +22,7 @@ data_train_prefix = prefix + '/train_data/'
 holiday_service = HolidayService(s3_client, bucket, data_train_prefix)
 
 def lambda_handler(event, context):
-    event = holiday_service.annotate_event(event)
+    # event = holiday_service.annotate_event(event)
 
     df = pd.DataFrame([event])
 

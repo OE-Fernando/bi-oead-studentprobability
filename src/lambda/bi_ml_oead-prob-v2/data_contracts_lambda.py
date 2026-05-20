@@ -13,7 +13,7 @@ TRAINING_CATEGORICAL_FEATURES = [
     'studentLevelNumber',
     'enrollment',
     'studentHistory',
-    'country',
+    'country_iso',
     'isb2b',
     'gender',
     'ageGroup',
@@ -38,7 +38,7 @@ HISTORICAL_CATEGORICAL_FEATURES = [
     'studentLevelNumber',
     'enrollment',
     'studentHistory',
-    'country',
+    'country_iso',
     'isb2b',
     'gender',
     'ageGroup',
@@ -169,7 +169,7 @@ from pandas.api.types import is_datetime64_any_dtype
 
 
 def _is_date_series(series: pd.Series) -> bool:
-    # If already datetime dtype → valid
+    # Already datetime dtype
     if is_datetime64_any_dtype(series):
         return True
 
@@ -178,14 +178,21 @@ def _is_date_series(series: pd.Series) -> bool:
     if non_null.empty:
         return True
 
-    # Case 1: Already date-like objects
-    if non_null.map(lambda value: isinstance(value, (date, datetime, pd.Timestamp))).all():
+    # Already datetime-like objects
+    if non_null.map(
+        lambda value: isinstance(value, (datetime, pd.Timestamp))
+    ).all():
         return True
 
-    # Case 2: Try strict string format validation (YYYY-MM-DD)
+    # Strict ISO-8601 UTC validation
     try:
-        pd.to_datetime(non_null, format="%Y-%m-%d", errors="raise")
+        pd.to_datetime(
+            non_null,
+            format="%Y-%m-%dT%H:%M:%SZ",
+            errors="raise"
+        )
         return True
+
     except (ValueError, TypeError):
         return False
 

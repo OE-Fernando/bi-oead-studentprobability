@@ -12,7 +12,7 @@ class HolidayService:
         self.bucket = bucket
         self.data_train_prefix = data_train_prefix
 
-        print(f"Loading holiday lookup table from s3://{bucket}/{data_train_prefix}lk_holiday.csv")
+        # print(f"Loading holiday lookup table from s3://{bucket}/{data_train_prefix}lk_holiday.csv")
 
         file = self.s3_client.get_object(Bucket=self.bucket, Key=self.data_train_prefix + 'lk_holiday.csv')
         self.df_holiday = pd.read_csv(file['Body'], sep=',')
