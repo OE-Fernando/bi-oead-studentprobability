@@ -9,7 +9,7 @@ from pathlib import Path
 import joblib
 
 # Set up imports from lambda directory using importlib to handle hyphenated directory name
-lambda_dir = Path(__file__).resolve().parent.parent / "lambda" / "bi_ml_oejr-prob-v2"
+lambda_dir = Path(__file__).resolve().parent.parent / "lambda" / "bi_ml_oead-prob-v2"
 
 # Load holiday_service_lambda first since data_srv_lambda depends on it
 holiday_spec = importlib.util.spec_from_file_location(

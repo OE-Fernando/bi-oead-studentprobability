@@ -6,7 +6,7 @@ Steps:
     Run training (venv_docker\Scripts\activate):
         Download file from S3:
             cd data
-            aws s3 cp s3://sagemaker-us-east-1-719805443631/bi_oejr_prob_sm/train_data/students_prob_show_up_to_lc_data.csv ./students_prob_show_up_to_lc_data.csv
+            aws s3 cp s3://sagemaker-us-east-1-719805443631/bi_oead_prob_sm/train_data/students_prob_show_up_to_lc_data.csv ./students_prob_show_up_to_lc_data.csv
         
         Run complete pipeline (all three steps):
             cd ..
@@ -38,7 +38,7 @@ Steps:
         Entrar a jupyter lab (in Sagemaker)
         Run: bi-dev
         Open: bi-dev (once it is running)
-        Cambiar a folder: /user-default-efs/bi-oejr-studentprobability-v2/
+        Cambiar a folder: /user-default-efs/bi-oead-studentprobability-v2/
         .git Commit and Sync (pull, push)
             OE-Fernando
             ****** (look in my notes)
@@ -47,32 +47,32 @@ Steps:
         wait for the Endpoint to be created:
             check in: Endpoints (Deployments & inference)
         open: endpoint_test.ipynb
-            Cambiar el nombre del endpoint (algo así como "oejr-prob-ep2026-03-20-16-29-40")
+            Cambiar el nombre del endpoint (algo así como "oead-prob-ep2026-03-20-16-29-40")
             run cell by cell (the Endpoint to be tested)
             
     Test lambda function locally:
         update file: Activate.ps1 with the new Endpoint name:
-            $env:ENDPOINT_NAME="oejr-prob-ep2026-03-27-12-07-13"
+            $env:ENDPOINT_NAME="oead-prob-ep2026-03-27-12-07-13"
         deactivate and re-activate environmnet:
-            (venv) PS C:\Users\EDUCENTROS\Documents\GitHub\bi-oejr-studentprobability-v2> deactivate
-            PS C:\Users\EDUCENTROS\Documents\GitHub\bi-oejr-studentprobability-v2> venv\Scripts\activate
-        python src\lambda\bi_ml_oejr-prob-v2\lambda_function.py
+            (venv) PS C:\Users\EDUCENTROS\Documents\GitHub\bi-oead-studentprobability-v2> deactivate
+            PS C:\Users\EDUCENTROS\Documents\GitHub\bi-oead-studentprobability-v2> venv\Scripts\activate
+        python src\lambda\bi_ml_oead-prob-v2\lambda_function.py
         You should get something like: Raw result: 0.7058585286140442
 
-    Test lambda function in AWS (Lambda > Functions > bi_ml_oejr-prob-v2)
+    Test lambda function in AWS (Lambda > Functions > bi_ml_oead-prob-v2)
         Update: Configuration (TAB) > Environment variables > ENDPOINT_NAME
         Test: Test (TAB) > Test (Run test button); with event name: TestFCO20260320
             Should get a value like: 0.6628158092498779
 
-    Test API Gateway from terminal (https://bi-api.openenglish.com/juniorprob2 goes to the bi_ml_oejr-prob-v2 lambda function):
+    Test API Gateway from terminal (https://bi-api.openenglish.com/juniorprob2 goes to the bi_ml_oead-prob-v2 lambda function):
         C:\Windows\System32\curl.exe -X POST "https://bi-api.openenglish.com/juniorprob" -H "accept: application/json" -H "Content-Type: application/json" -d "{ \"dow\": 3, \"ageGroup\": 2, \"studLevel\": 3, \"stuH\": \"2-10\", \"country_iso\": \"AR\", \"enrollment\": \"s07\", \"deltaDays\": -1, \"deltaHours\": -16, \"hourOfDay\": 3, \"minuteOfHour\": 0, \"isWeekend\": 0, \"native_language\": \"es\", \"class_type\": \"orientation\", \"book_date\": \"2023-11-30\" }"
         C:\Windows\System32\curl.exe -X POST "https://bi-api.openenglish.com/juniorprob2" -H "accept: application/json" -H "Content-Type: application/json" -d "{ \"dow\": 3, \"ageGroup\": 2, \"studLevel\": 3, \"stuH\": \"2-10\", \"country_iso\": \"AR\", \"enrollment\": \"s07\", \"deltaDays\": -1, \"deltaHours\": -16, \"hourOfDay\": 3, \"minuteOfHour\": 0, \"isWeekend\": 0, \"native_language\": \"es\", \"class_type\": \"orientation\", \"book_date\": \"2023-11-30\" }"
    
     Test automático:
         Set in test_api_gateway.py:
-            PROD: point to lambda bi_ml_oejr-prob:
+            PROD: point to lambda bi_ml_oead-prob:
                 API_ENDPOINT = "https://bi-api.openenglish.com/juniorprob"
-            TEST: point to lambda bi_ml_oejr-prob-v2:
+            TEST: point to lambda bi_ml_oead-prob-v2:
                 API_ENDPOINT = "https://bi-api.openenglish.com/juniorprob2"
         python .\src\api_gateway\test_api_gateway.py
 

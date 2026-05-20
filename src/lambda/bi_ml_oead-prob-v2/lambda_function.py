@@ -14,7 +14,7 @@ s3_client = boto3.client('s3')
 ENDPOINT_NAME = os.environ['ENDPOINT_NAME']
 bucket = os.environ['BUCKET']
 
-prefix = 'bi_oejr_prob_sm' # use this prefix to store all files
+prefix = 'bi_oead_prob_sm' # use this prefix to store all files
 modelprefix = prefix + '/model/'
 data_train_prefix = prefix + '/train_data/'
 

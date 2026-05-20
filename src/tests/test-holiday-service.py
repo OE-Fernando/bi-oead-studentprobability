@@ -4,9 +4,9 @@ from pathlib import Path
 
 import pandas as pd
 
-# add lambda package path so we can import modules from bi_ml_oejr-prob-v2
+# add lambda package path so we can import modules from bi_ml_oead-prob-v2
 BASEPATH = Path(__file__).resolve().parents[1]
-LAMBDA_PATH = BASEPATH / 'lambda' / 'bi_ml_oejr-prob-v2'
+LAMBDA_PATH = BASEPATH / 'lambda' / 'bi_ml_oead-prob-v2'
 sys.path.insert(0, str(LAMBDA_PATH))
 
 from holiday_service_lambda import HolidayService
