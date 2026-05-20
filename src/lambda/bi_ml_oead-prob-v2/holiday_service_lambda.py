@@ -12,6 +12,8 @@ class HolidayService:
         self.bucket = bucket
         self.data_train_prefix = data_train_prefix
 
+        print(f"Loading holiday lookup table from s3://{bucket}/{data_train_prefix}lk_holiday.csv")
+
         file = self.s3_client.get_object(Bucket=self.bucket, Key=self.data_train_prefix + 'lk_holiday.csv')
         self.df_holiday = pd.read_csv(file['Body'], sep=',')
 
@@ -35,9 +37,9 @@ class HolidayService:
             raise ValueError(f"book_date must be YYYY-MM-DD: {date_str}") from exc
 
         date_keys = {
-            'is_holiday': self._format_date(book_date),
-            'is_holiday_pre': self._format_date(book_date - datetime.timedelta(days=1)),
-            'is_holiday_post': self._format_date(book_date + datetime.timedelta(days=1)),
+            'isHoliday': self._format_date(book_date),
+            'isHolidayPre': self._format_date(book_date - datetime.timedelta(days=1)),
+            'isHolidayPost': self._format_date(book_date + datetime.timedelta(days=1)),
         }
 
         results = {}
@@ -47,7 +49,7 @@ class HolidayService:
             ]
             results[key] = 1 if not found.empty else 0
 
-        return results['is_holiday'], results['is_holiday_pre'], results['is_holiday_post']
+        return results['isHoliday'], results['isHolidayPre'], results['isHolidayPost']
 
     @staticmethod
     def normalize_is_weekend(value: Any) -> int:
@@ -66,7 +68,7 @@ class HolidayService:
         return 0
 
     def annotate_event(self, event: Dict[str, Any]) -> Dict[str, Any]:
-        event['is_holiday'], event['is_holiday_pre'], event['is_holiday_post'] = self.get_holiday_flags(
+        event['isHoliday'], event['isHolidayPre'], event['isHolidayPost'] = self.get_holiday_flags(
             event.get('book_date', ''), event.get('country_iso', '')
         )
 

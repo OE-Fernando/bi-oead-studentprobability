@@ -26,15 +26,15 @@ def test_get_holiday_flags():
     s3_client = FakeS3Client(csv)
     service = HolidayService(s3_client, bucket='any', data_train_prefix='prefix/')
 
-    is_holiday, is_holiday_pre, is_holiday_post = service.get_holiday_flags('2026-03-05', 'BR')
-    assert is_holiday == 1
-    assert is_holiday_pre == 1
-    assert is_holiday_post == 1
+    isHoliday, isHolidayPre, isHolidayPost = service.get_holiday_flags('2026-03-05', 'BR')
+    assert isHoliday == 1
+    assert isHolidayPre == 1
+    assert isHolidayPost == 1
 
-    is_holiday, is_holiday_pre, is_holiday_post = service.get_holiday_flags('2026-03-07', 'BR')
-    assert is_holiday == 0
-    assert is_holiday_pre == 0
-    assert is_holiday_post == 0
+    isHoliday, isHolidayPre, isHolidayPost = service.get_holiday_flags('2026-03-07', 'BR')
+    assert isHoliday == 0
+    assert isHolidayPre == 0
+    assert isHolidayPost == 0
 
 
 def test_annotate_event():
@@ -45,9 +45,9 @@ def test_annotate_event():
     event = {'book_date': '2026-03-05', 'country_iso': 'BR', 'isWeekend': 'true'}
     annotated = service.annotate_event(event)
 
-    assert annotated['is_holiday'] == 1
-    assert annotated['is_holiday_pre'] == 1
-    assert annotated['is_holiday_post'] == 1
+    assert annotated['isHoliday'] == 1
+    assert annotated['isHolidayPre'] == 1
+    assert annotated['isHolidayPost'] == 1
     assert annotated['isWeekend'] == 1
 
 
@@ -81,6 +81,6 @@ def test_data_service_calling_to_query_uses_holiday_service():
     query_data = data_service.calling_to_query(calling_data, holiday_service=holiday_service)
 
     first = query_data.X.iloc[0]
-    assert first['is_holiday'] == 1
-    assert first['is_holiday_pre'] == 1
-    assert first['is_holiday_post'] == 1
+    assert first['isHoliday'] == 1
+    assert first['isHolidayPre'] == 1
+    assert first['isHolidayPost'] == 1

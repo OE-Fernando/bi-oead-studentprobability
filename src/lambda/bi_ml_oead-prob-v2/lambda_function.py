@@ -14,7 +14,7 @@ s3_client = boto3.client('s3')
 ENDPOINT_NAME = os.environ['ENDPOINT_NAME']
 bucket = os.environ['BUCKET']
 
-prefix = 'bi_oead_prob_sm' # use this prefix to store all files
+prefix = 'oead-prob' # use this prefix to store all files
 modelprefix = prefix + '/model/'
 data_train_prefix = prefix + '/train_data/'
 
@@ -68,25 +68,12 @@ def lambda_handler(event, context):
 
 # Simulated Lambda event (as a dict)
 event = {
-    "stuH": "4-8",
-    "country_iso": "BR",
-    "enrollment": "sMax",
-    "native_language": "pt-BR",
-    "class_type": "group",
-    "dow": 7,
-    "studLevel": 1,
-    "ageGroup": 2,
-    "deltaDays": 0,
-    "deltaHours": -1,
-    "hourOfDay": 7,
-    "minuteOfHour": 0,
-    "isWeekend": 1,
-    "is_holiday": 1,
-    "is_holiday_pre": 0,
-    "is_holiday_post": 0,
-    "book_date": "2026-03-05"
+    'classroomRequestId': 12345,
+    'timezone': 'America/New_York',
+    'courseSubTypeId': 4,
+    'startTime': '2023-10-01T10:00:00Z',
+    'personId': 54321
 }
-
 
 # Simulate Lambda invocation
 result = lambda_handler(event, None)

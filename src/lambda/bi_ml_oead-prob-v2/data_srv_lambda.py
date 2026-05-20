@@ -51,15 +51,15 @@ class DataService:
 
         if holiday_service is not None:
             # Real holiday conversion using holiday lookup service
-            df['is_holiday'] = 0
-            df['is_holiday_pre'] = 0
-            df['is_holiday_post'] = 0
+            df['isHoliday'] = 0
+            df['isHolidayPre'] = 0
+            df['isHolidayPost'] = 0
 
             for idx, row in df.iterrows():
                 flags = holiday_service.get_holiday_flags(str(row['book_date']), str(row['country_iso']))
-                df.at[idx, 'is_holiday'] = flags[0]
-                df.at[idx, 'is_holiday_pre'] = flags[1]
-                df.at[idx, 'is_holiday_post'] = flags[2]
+                df.at[idx, 'isHoliday'] = flags[0]
+                df.at[idx, 'isHolidayPre'] = flags[1]
+                df.at[idx, 'isHolidayPost'] = flags[2]
         else:
             # Fallback conversion rule (for tests or legacy behavior)
             dates = pd.to_datetime(df['book_date'], errors='coerce')
@@ -70,9 +70,9 @@ class DataService:
             holiday_pre = (((dates + pd.Timedelta(days=1)).dt.day % 10) == 0).astype('int64')
             holiday_post = (((dates - pd.Timedelta(days=1)).dt.day % 10) == 0).astype('int64')
 
-            df['is_holiday'] = holiday
-            df['is_holiday_pre'] = holiday_pre
-            df['is_holiday_post'] = holiday_post
+            df['isHoliday'] = holiday
+            df['isHolidayPre'] = holiday_pre
+            df['isHolidayPost'] = holiday_post
 
         # Query contract expects categorical columns as string.
         for column in QUERY_SCHEMA.categorical_features:

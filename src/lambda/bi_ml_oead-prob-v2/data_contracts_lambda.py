@@ -8,52 +8,50 @@ from pandas.api.types import is_datetime64_any_dtype, is_integer_dtype, is_strin
 
 # Per-contract feature definitions. Update these lists as each contract evolves.
 TRAINING_CATEGORICAL_FEATURES = [
+    'courseSubTypeId',
     'dow',
-    'studLevel',
-    'stuH',
-    'country_iso',
+    'studentLevelNumber',
     'enrollment',
-    'native_language',
-    'class_type',
+    'studentHistory',
+    'country',
+    'isb2b',
+    'gender',
+    'ageGroup',
 ]
 
 TRAINING_INTEGER_FEATURES = [
-    'ageGroup',
     'deltaDays',
     'deltaHours',
     'hourOfDay',
     'minuteOfHour',
-    'isWeekend',
-    'is_holiday',
-    'is_holiday_pre',
-    'is_holiday_post',
+    'isHoliday',
+    'preHoliday',
+    'postHoliday',
 ]
 
 TRAINING_DATE_FEATURES = []
 
 # Defaulted to training features for now; customize independently as needed.
 HISTORICAL_CATEGORICAL_FEATURES = [
-    'stuH',
-    'country_iso',
+    'courseSubTypeId',
+    'dow',
+    'studentLevelNumber',
     'enrollment',
-    'native_language',
-    'class_type',
+    'studentHistory',
+    'country',
+    'isb2b',
+    'gender',
+    'ageGroup',
 ]
 
 HISTORICAL_INTEGER_FEATURES = [
-    'dow',
-    'studLevel',
-    'ageGroup',
     'deltaDays',
     'deltaHours',
     'hourOfDay',
     'minuteOfHour',
-    'isWeekend',
-    'is_holiday',
-    'is_holiday_pre',
-    'is_holiday_post',
-    'isOrientation',
-    'isPrivate',
+    'isHoliday',
+    'preHoliday',
+    'postHoliday',
 ]
 
 HISTORICAL_DATE_FEATURES = []
@@ -65,29 +63,17 @@ QUERY_DATE_FEATURES = []
 
 
 CALLING_CATEGORICAL_FEATURES = [
-    'stuH',
-    'country_iso',
-    'enrollment',
-    'native_language',
-    'class_type',
+    'timezone',
 ]
 
 CALLING_INTEGER_FEATURES = [
-    'dow',
-    'studLevel',
-    'ageGroup',
-    'deltaDays',
-    'deltaHours',
-    'hourOfDay',
-    'minuteOfHour',
-    'isWeekend',
-    'is_holiday',
-    'is_holiday_pre',
-    'is_holiday_post',
+    'classroomRequestId',
+    'courseSubTypeId',
+    'personId',
 ]
 
 CALLING_DATE_FEATURES = [
-    'book_date',
+    'startTime',
 ]
 
 

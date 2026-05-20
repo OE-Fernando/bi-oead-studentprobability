@@ -1,3 +1,14 @@
+
+
+
+$env:ENDPOINT_NAME="my-endpoint-name"
+$env:BUCKET="sagemaker-us-east-1-719805443631"
+
+AWSTemplateFormatVersion: "2010-09-09"
+
+
+
+
 Activate local enviroment on PC:
     venv\Scripts\activate
     venv_docker\Scripts\activate
@@ -6,7 +17,7 @@ Steps:
     Run training (venv_docker\Scripts\activate):
         Download file from S3:
             cd data
-            aws s3 cp s3://sagemaker-us-east-1-719805443631/bi_oead_prob_sm/train_data/students_prob_show_up_to_lc_data.csv ./students_prob_show_up_to_lc_data.csv
+            aws s3 cp s3://sagemaker-us-east-1-719805443631/bi_oead-prob_sm/train_data/students_prob_show_up_to_lc_data.csv ./students_prob_show_up_to_lc_data.csv
         
         Run complete pipeline (all three steps):
             cd ..

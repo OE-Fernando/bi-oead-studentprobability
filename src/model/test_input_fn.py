@@ -40,9 +40,9 @@ payload_dict = {
     "hourOfDay": 7,
     "minuteOfHour": 0,
     "isWeekend": 1,
-    "is_holiday": 0,
-    "is_holiday_pre": 0,
-    "is_holiday_post": 0
+    "isHoliday": 0,
+    "isHolidayPre": 0,
+    "isHolidayPost": 0
 }
 
 payload_json = json.dumps(payload_dict)
