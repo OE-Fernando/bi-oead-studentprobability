@@ -8,6 +8,7 @@ import pandas as pd
 
 from holiday_service_lambda import HolidayService
 from student_srv_lambda import StudentService
+from time_srv_lambda import compute_time_features
 from data_contracts_lambda import (  # type: ignore  # pylint: disable=import-error
     CallingData,
     DataContractError,
@@ -61,17 +62,22 @@ class DataService:
         if 'timeZone' not in df.columns:
             raise DataContractError("CallingData.X must include 'timeZone' to build QueryData.")
         
-    # With row['startTime'] and the current datetime, we could compute
-    #   dow: 
-    #   deltaDays:
-    #   deltaHours:
-    #   hourOfDay:
-    #   minuteOfHour:
         df['dow'] = ''
         df['deltaDays'] = 0
         df['deltaHours'] = 0
         df['hourOfDay'] = 0
         df['minuteOfHour'] = 0
+
+        for idx, row in df.iterrows():
+            try:
+                tf = compute_time_features(row['startTime'], str(row['timeZone']))
+            except ValueError as exc:
+                raise DataContractError(str(exc)) from exc
+            df.at[idx, 'dow']          = tf['dow']
+            df.at[idx, 'deltaDays']    = tf['deltaDays']
+            df.at[idx, 'deltaHours']   = tf['deltaHours']
+            df.at[idx, 'hourOfDay']    = tf['hourOfDay']
+            df.at[idx, 'minuteOfHour'] = tf['minuteOfHour']
 
 
         if 'personId' not in df.columns:
