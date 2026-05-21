@@ -7,6 +7,7 @@ import sys
 import pandas as pd
 
 from holiday_service_lambda import HolidayService
+from student_srv_lambda import StudentService
 from data_contracts_lambda import (  # type: ignore  # pylint: disable=import-error
     CallingData,
     DataContractError,
@@ -43,7 +44,12 @@ class DataService:
         return build_training_data(df, target_column='y')
 
 
-    def calling_to_query(self, calling_data: CallingData, holiday_service: HolidayService | None = None) -> QueryData:
+    def calling_to_query(
+        self,
+        calling_data: CallingData,
+        holiday_service: HolidayService | None = None,
+        student_service: StudentService | None = None,
+    ) -> QueryData:
         """Convert CallingData into QueryData with startTime -> holiday flags conversion."""
         df = calling_data.X.copy()
 
@@ -70,17 +76,16 @@ class DataService:
 
         if 'personId' not in df.columns:
             raise DataContractError("CallingData.X must include 'personId' to build QueryData.")
-        
-    # The following columns are extracted from the df['personId'] with the function extract_student_features.
-    #   The function {...} = extract_student_features(personId) will return a json with all the extracted features.
 
-        df['enrollment'] = ''
-        df['studentHistory'] = ''
-        df['country_iso'] = ''
-        df['isb2b'] = ''
-        df['gender'] = ''
-        df['ageGroup'] = ''
-        df['studentLevelNumber'] = ''
+        _svc = student_service if student_service is not None else StudentService()
+        student_cols = ['enrollment', 'studentHistory', 'country_iso', 'isb2b', 'gender', 'ageGroup', 'studentLevelNumber']
+        for col in student_cols:
+            df[col] = ''
+
+        for idx, row in df.iterrows():
+            features = _svc.extract_student_features(int(row['personId']))
+            for col in student_cols:
+                df.at[idx, col] = features.get(col, '')
 
         if holiday_service is not None:
             # Real holiday conversion using holiday lookup service
