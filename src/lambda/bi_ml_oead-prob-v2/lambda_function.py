@@ -39,37 +39,39 @@ def lambda_handler(event, context):
     # Convert event dict to JSON string
     payload = json.dumps(event_dict)
 
-    # Invoke the SageMaker endpoint with the payload
-    endpoint_name = ENDPOINT_NAME
-    runtime = boto3.client("sagemaker-runtime")
+    print("Payload for SageMaker endpoint:", payload)
+
+    # # Invoke the SageMaker endpoint with the payload
+    # endpoint_name = ENDPOINT_NAME
+    # runtime = boto3.client("sagemaker-runtime")
     
-    try:
-        # print("ANTES DEL ENDPOINT")
+    # try:
+    #     # print("ANTES DEL ENDPOINT")
 
-        response = runtime.invoke_endpoint(
-            EndpointName=endpoint_name,
-            ContentType="application/json",
-            Body=payload
-        )
+    #     response = runtime.invoke_endpoint(
+    #         EndpointName=endpoint_name,
+    #         ContentType="application/json",
+    #         Body=payload
+    #     )
 
-        # print("RAW RESPONSE:", response)
+    #     # print("RAW RESPONSE:", response)
 
-        result = response["Body"].read().decode("utf-8")
-        # print("RESULT:", result)
+    #     result = response["Body"].read().decode("utf-8")
+    #     # print("RESULT:", result)
 
-        parsed = json.loads(result)
-        return parsed[0]
+    #     parsed = json.loads(result)
+    #     return parsed[0]
 
-    except Exception as e:
-        print("ERROR CALLING ENDPOINT:", str(e))
-        raise e
+    # except Exception as e:
+    #     print("ERROR CALLING ENDPOINT:", str(e))
+    #     raise e
 
 
 
 # Simulated Lambda event (as a dict)
 event = {
     'classroomRequestId': 12345,
-    'timezone': 'America/New_York',
+    'timeZone': 'America/New_York',
     'courseSubTypeId': 4,
     'startTime': '2023-10-01T10:00:00Z',
     'personId': 54321

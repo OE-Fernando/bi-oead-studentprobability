@@ -63,7 +63,7 @@ QUERY_DATE_FEATURES = []
 
 
 CALLING_CATEGORICAL_FEATURES = [
-    'timezone',
+    'timeZone',
 ]
 
 CALLING_INTEGER_FEATURES = [

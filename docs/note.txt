@@ -4,6 +4,10 @@
 $env:ENDPOINT_NAME="my-endpoint-name"
 $env:BUCKET="sagemaker-us-east-1-719805443631"
 
+[System.Environment]::SetEnvironmentVariable("ENDPOINT_NAME", "my-endpoint-name","User")
+[System.Environment]::SetEnvironmentVariable("BUCKET", "sagemaker-us-east-1-719805443631","User")
+
+
 AWSTemplateFormatVersion: "2010-09-09"
 
 

@@ -42,27 +42,45 @@ class DataService:
 
         return build_training_data(df, target_column='y')
 
+
     def calling_to_query(self, calling_data: CallingData, holiday_service: HolidayService | None = None) -> QueryData:
         """Convert CallingData into QueryData with startTime -> holiday flags conversion."""
         df = calling_data.X.copy()
 
+        df['courseSubTypeId'] = df['courseSubTypeId']
+
         if 'startTime' not in df.columns:
             raise DataContractError("CallingData.X must include 'startTime' to build QueryData.")
-
-        df['courseSubTypeId'] = '4'
+        
+        if 'timeZone' not in df.columns:
+            raise DataContractError("CallingData.X must include 'timeZone' to build QueryData.")
+        
+    # With row['startTime'] and the current datetime, we could compute
+    #   dow: 
+    #   deltaDays:
+    #   deltaHours:
+    #   hourOfDay:
+    #   minuteOfHour:
         df['dow'] = ''
-        df['studentLevelNumber'] = ''
+        df['deltaDays'] = 0
+        df['deltaHours'] = 0
+        df['hourOfDay'] = 0
+        df['minuteOfHour'] = 0
+
+
+        if 'personId' not in df.columns:
+            raise DataContractError("CallingData.X must include 'personId' to build QueryData.")
+        
+    # The following columns are extracted from the df['personId'] with the function extract_student_features.
+    #   The function {...} = extract_student_features(personId) will return a json with all the extracted features.
+
         df['enrollment'] = ''
         df['studentHistory'] = ''
         df['country_iso'] = ''
         df['isb2b'] = ''
         df['gender'] = ''
         df['ageGroup'] = ''
-
-        df['deltaDays'] = 0
-        df['deltaHours'] = 0
-        df['hourOfDay'] = 0
-        df['minuteOfHour'] = 0
+        df['studentLevelNumber'] = ''
 
         if holiday_service is not None:
             # Real holiday conversion using holiday lookup service
