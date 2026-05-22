@@ -5,8 +5,8 @@ from typing import Any, Dict, Optional
 
 UNKNOWN = "unknown"
 
-_MOCK_STUDENTS: Dict[int, Dict[str, str]] = {
-    1001: {
+_MOCK_STUDENTS: Dict[str, Dict[str, str]] = {
+    "S#1001": {
         "enrollment":          "re-enrolled",
         "studentHistory":      "regular",
         "country_iso":         "MX",
@@ -15,7 +15,7 @@ _MOCK_STUDENTS: Dict[int, Dict[str, str]] = {
         "ageGroup":            "25-34",
         "studentLevelNumber":  "3",
     },
-    1002: {
+    "S#1002": {
         "enrollment":          "new",
         "studentHistory":      "first-time",
         "country_iso":         "US",
@@ -27,12 +27,12 @@ _MOCK_STUDENTS: Dict[int, Dict[str, str]] = {
 }
 
 _DEFAULT_FEATURES: Dict[str, str] = {
-    "enrollment":          UNKNOWN,
-    "studentHistory":      UNKNOWN,
-    "country_iso":         UNKNOWN,
+    "enrollment":          "U",
+    "studentHistory":      "0-0",
+    "country_iso":         "XX",
     "isb2b":               "0",
-    "gender":              UNKNOWN,
-    "ageGroup":            UNKNOWN,
+    "gender":              "U",
+    "ageGroup":            "U",
     "studentLevelNumber":  "0",
 }
 
@@ -57,11 +57,13 @@ class StudentService:
             enrollment, studentHistory, country_iso, isb2b,
             gender, ageGroup, studentLevelNumber
         """
+
+        PK = f"S#{person_id}"
         if self._db_client is not None:
-            raw = self._db_client.get_student_features(person_id)
+            raw = self._db_client.get_student_features(PK)
             return self._normalize(raw)
 
-        return dict(_MOCK_STUDENTS.get(person_id, _DEFAULT_FEATURES))
+        return dict(_MOCK_STUDENTS.get(PK, _DEFAULT_FEATURES))
 
     @staticmethod
     def _normalize(raw: Dict[str, Any]) -> Dict[str, str]:
