@@ -2,29 +2,8 @@ from __future__ import annotations
 
 from typing import Any, Dict, Optional
 
+from get_dynamodb_item import get_item_by_pk
 
-UNKNOWN = "unknown"
-
-_MOCK_STUDENTS: Dict[str, Dict[str, str]] = {
-    "S#1001": {
-        "enrollment":          "re-enrolled",
-        "studentHistory":      "regular",
-        "country_iso":         "MX",
-        "isb2b":               "0",
-        "gender":              "F",
-        "ageGroup":            "25-34",
-        "studentLevelNumber":  "3",
-    },
-    "S#1002": {
-        "enrollment":          "new",
-        "studentHistory":      "first-time",
-        "country_iso":         "US",
-        "isb2b":               "1",
-        "gender":              "M",
-        "ageGroup":            "18-24",
-        "studentLevelNumber":  "1",
-    },
-}
 
 _DEFAULT_FEATURES: Dict[str, str] = {
     "enrollment":          "U",
@@ -40,11 +19,11 @@ _DEFAULT_FEATURES: Dict[str, str] = {
 class StudentService:
     """Resolves student-level features from a person identifier.
 
-    In production, supply a ``db_client`` that exposes a
-    ``get_student_features(person_id: int) -> dict`` method backed by
-    the actual student data store.  When no client is provided the
-    service falls back to a small in-memory mock table, which is
-    sufficient for local development and unit tests.
+    The DynamoDB connection is created once at module load (in
+    get_dynamodb_item.py) and reused across Lambda invocations.
+
+    Supply a ``db_client`` with a ``get_student_features(pk: str) -> dict``
+    method to override the default DynamoDB path (useful in unit tests).
     """
 
     def __init__(self, db_client: Optional[Any] = None) -> None:
@@ -57,13 +36,16 @@ class StudentService:
             enrollment, studentHistory, country_iso, isb2b,
             gender, ageGroup, studentLevelNumber
         """
-
         PK = f"S#{person_id}"
+
         if self._db_client is not None:
             raw = self._db_client.get_student_features(PK)
             return self._normalize(raw)
 
-        return dict(_MOCK_STUDENTS.get(PK, _DEFAULT_FEATURES))
+        item = get_item_by_pk(PK)
+        if item is None:
+            return dict(_DEFAULT_FEATURES)
+        return self._normalize(item)
 
     @staticmethod
     def _normalize(raw: Dict[str, Any]) -> Dict[str, str]:

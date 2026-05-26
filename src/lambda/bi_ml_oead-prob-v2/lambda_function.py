@@ -7,6 +7,7 @@ import datetime
 from data_srv_lambda import DataService
 from data_contracts_lambda import build_calling_data
 from holiday_service_lambda import HolidayService
+from student_srv_lambda import StudentService
 
 runtime = boto3.client('runtime.sagemaker')
 s3_client = boto3.client('s3')
@@ -18,8 +19,9 @@ prefix = 'oead-prob' # use this prefix to store all files
 modelprefix = prefix + '/model/'
 data_train_prefix = prefix + '/train_data/'
 
-# load preprocess template via reusable service
+# Created once at cold start; DynamoDB connection in get_dynamodb_item.py is also module-level
 holiday_service = HolidayService(s3_client, bucket, data_train_prefix)
+student_service = StudentService()
 
 def lambda_handler(event, context):
     # event = holiday_service.annotate_event(event)
@@ -30,7 +32,7 @@ def lambda_handler(event, context):
     # print("Calling data:", calling_data)
    
     service = DataService()
-    query_data = service.calling_to_query(calling_data, holiday_service=holiday_service)
+    query_data = service.calling_to_query(calling_data, holiday_service=holiday_service, student_service=student_service)
     # print("Query data:", query_data)
 
     event_dict = query_data.X.iloc[0].to_dict()
