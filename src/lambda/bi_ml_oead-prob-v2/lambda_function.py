@@ -76,7 +76,7 @@ event = {
     'timeZone': 'America/New_York',
     'courseSubTypeId': 4,
     'startTime': '2023-10-01T10:00:00Z',
-    'personId': 54321
+    'personId': 978456
 }
 
 # Simulate Lambda invocation
