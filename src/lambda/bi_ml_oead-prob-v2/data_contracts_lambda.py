@@ -43,6 +43,7 @@ HISTORICAL_CATEGORICAL_FEATURES = [
     'isb2b',
     'gender',
     'ageGroup',
+    'language',
 ]
 
 HISTORICAL_INTEGER_FEATURES = [
@@ -50,9 +51,10 @@ HISTORICAL_INTEGER_FEATURES = [
     'deltaHours',
     'hourOfDay',
     'minuteOfHour',
+    'isWeekend',
     'isHoliday',
-    'preHoliday',
-    'postHoliday',
+    'isHolidayPre',
+    'isHolidayPost',
 ]
 
 HISTORICAL_DATE_FEATURES = []

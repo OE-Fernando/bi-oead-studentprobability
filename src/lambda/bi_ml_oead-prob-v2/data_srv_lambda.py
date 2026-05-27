@@ -37,9 +37,6 @@ class DataService:
         ]
         df = df[common_training_columns].copy()
 
-        df["dow"] = df["dow"].astype(str)
-        df["studLevel"] = df["studLevel"].astype(str)
-
         df['y'] = historical_data.y
 
         return build_training_data(df, target_column='y')

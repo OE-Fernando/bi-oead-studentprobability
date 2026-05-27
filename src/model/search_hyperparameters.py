@@ -99,6 +99,10 @@ def main():
     data = pd.read_csv(file_path)
     target_column = 'didGoToClass'
 
+    for col in data_contracts_lambda.HISTORICAL_CATEGORICAL_FEATURES:
+        if col in data.columns:
+            data[col] = data[col].astype(str)
+
     # Enforce data contract for model inputs.
     historical_data = build_historical_data(data, target_column=target_column)
 
