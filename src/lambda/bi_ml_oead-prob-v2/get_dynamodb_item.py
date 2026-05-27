@@ -1,37 +1,35 @@
 import argparse
 import json
 
-import boto3
-from botocore.exceptions import ClientError
-
 
 DYNAMODB_TABLE_NAME = "biba_oead_student_features"
 AWS_REGION = "us-east-1"
 
 # --------------------------------------------------------------------------
-# Create DynamoDB connection ONCE
+# DynamoDB connection — created once on first call, reused for all subsequent
+# calls (Lambda warm-start behaviour). Import-time creation is intentionally
+# avoided so that training scripts can load this module without boto3.
 # --------------------------------------------------------------------------
 
-dynamodb = boto3.resource(
-    "dynamodb",
-    region_name=AWS_REGION
-)
+_table = None
 
-table = dynamodb.Table(DYNAMODB_TABLE_NAME)
+
+def _get_table():
+    global _table
+    if _table is None:
+        import boto3
+        _table = boto3.resource("dynamodb", region_name=AWS_REGION).Table(DYNAMODB_TABLE_NAME)
+    return _table
 
 
 def get_item_by_pk(pk_value):
     """
     Fetch a single DynamoDB item by partition key.
     """
+    from botocore.exceptions import ClientError
 
     try:
-        response = table.get_item(
-            Key={
-                "PK": pk_value
-            }
-        )
-
+        response = _get_table().get_item(Key={"PK": pk_value})
     except ClientError as exc:
         raise RuntimeError(
             f"Failed to fetch item from DynamoDB: {exc}"
