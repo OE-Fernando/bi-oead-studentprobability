@@ -14,8 +14,8 @@ AWSTemplateFormatVersion: "2010-09-09"
 
 
 Activate local enviroment on PC:
-    venv\Scripts\activate
     venv_docker\Scripts\activate
+    venv\Scripts\activate
 
 Steps:
     Run training (venv_docker\Scripts\activate):
@@ -53,7 +53,7 @@ Steps:
         Entrar a jupyter lab (in Sagemaker)
         Run: bi-dev
         Open: bi-dev (once it is running)
-        Cambiar a folder: /user-default-efs/bi-oead-studentprobability-v2/
+        Cambiar a folder: /user-default-efs/bi-oead-studentprobability/
         .git Commit and Sync (pull, push)
             OE-Fernando
             ****** (look in my notes)
