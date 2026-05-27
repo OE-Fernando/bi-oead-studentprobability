@@ -27,7 +27,34 @@ data_contracts_lambda = importlib.util.module_from_spec(contracts_spec)
 sys.modules["data_contracts_lambda"] = data_contracts_lambda
 contracts_spec.loader.exec_module(data_contracts_lambda)
 
-# Load data_srv_lambda (now that its dependency holiday_service_lambda is available)
+# Load get_dynamodb_item (needed by student_srv_lambda)
+dynamo_spec = importlib.util.spec_from_file_location(
+    "get_dynamodb_item",
+    lambda_dir / "get_dynamodb_item.py"
+)
+get_dynamodb_item = importlib.util.module_from_spec(dynamo_spec)
+sys.modules["get_dynamodb_item"] = get_dynamodb_item
+dynamo_spec.loader.exec_module(get_dynamodb_item)
+
+# Load time_srv_lambda
+time_spec = importlib.util.spec_from_file_location(
+    "time_srv_lambda",
+    lambda_dir / "time_srv_lambda.py"
+)
+time_srv_lambda = importlib.util.module_from_spec(time_spec)
+sys.modules["time_srv_lambda"] = time_srv_lambda
+time_spec.loader.exec_module(time_srv_lambda)
+
+# Load student_srv_lambda (depends on get_dynamodb_item)
+student_spec = importlib.util.spec_from_file_location(
+    "student_srv_lambda",
+    lambda_dir / "student_srv_lambda.py"
+)
+student_srv_lambda = importlib.util.module_from_spec(student_spec)
+sys.modules["student_srv_lambda"] = student_srv_lambda
+student_spec.loader.exec_module(student_srv_lambda)
+
+# Load data_srv_lambda (now that all its dependencies are available)
 srv_spec = importlib.util.spec_from_file_location(
     "data_srv_lambda",
     lambda_dir / "data_srv_lambda.py"
@@ -70,7 +97,7 @@ def main():
     print(f"Loading training data from: {file_path}")
 
     data = pd.read_csv(file_path)
-    target_column = 'J'
+    target_column = 'didGoToClass'
 
     # Enforce data contract for model inputs.
     historical_data = build_historical_data(data, target_column=target_column)
