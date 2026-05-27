@@ -67,7 +67,7 @@ Steps:
             
     Test lambda function locally:
         update file: Activate.ps1 with the new Endpoint name:
-            $env:ENDPOINT_NAME="oead-prob-ep2026-03-27-12-07-13"
+            $env:ENDPOINT_NAME="oead-prob-ep2026-05-27-16-57-39"
         deactivate and re-activate environmnet:
             (venv) PS C:\Users\EDUCENTROS\Documents\GitHub\bi-oead-studentprobability-v2> deactivate
             PS C:\Users\EDUCENTROS\Documents\GitHub\bi-oead-studentprobability-v2> venv\Scripts\activate
