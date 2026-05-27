@@ -67,6 +67,7 @@ class DataService:
         df['deltaHours'] = 0
         df['hourOfDay'] = 0
         df['minuteOfHour'] = 0
+        df['isWeekend'] = 0
 
         for idx, row in df.iterrows():
             try:
@@ -78,6 +79,7 @@ class DataService:
             df.at[idx, 'deltaHours']   = tf['deltaHours']
             df.at[idx, 'hourOfDay']    = tf['hourOfDay']
             df.at[idx, 'minuteOfHour'] = tf['minuteOfHour']
+            df.at[idx, 'isWeekend']    = tf['isWeekend']
 
 
         if 'personId' not in df.columns:

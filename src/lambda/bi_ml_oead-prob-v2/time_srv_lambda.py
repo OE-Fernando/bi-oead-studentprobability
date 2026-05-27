@@ -50,10 +50,12 @@ def compute_time_features(
     local_start = dt_utc.astimezone(tz)
     local_now = now.astimezone(tz)
 
+    weekday = local_start.isoweekday()   # 1=Mon … 7=Sun
     return {
-        "dow":          str(local_start.isoweekday()),
+        "dow":          str(weekday),
         "deltaDays":    (local_now.date() - local_start.date()).days,
         "deltaHours":   local_now.hour - local_start.hour,
         "hourOfDay":    local_start.hour,
         "minuteOfHour": local_start.minute,
+        "isWeekend":    1 if weekday >= 6 else 0,
     }

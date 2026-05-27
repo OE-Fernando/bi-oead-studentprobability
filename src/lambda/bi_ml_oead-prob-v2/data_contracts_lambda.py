@@ -24,6 +24,7 @@ TRAINING_INTEGER_FEATURES = [
     'deltaHours',
     'hourOfDay',
     'minuteOfHour',
+    'isWeekend',
     'isHoliday',
     'isHolidayPre',
     'isHolidayPost',
